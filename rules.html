@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Eligibility & Rules - Official Voting Portal</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ========== RESET & BASE STYLES ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        :root {
+            /* Color Variables */
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --dark-blue: #1e3a8a;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --error-red: #ef4444;
+            
+            /* Gray Scale */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            
+            --white: #ffffff;
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.1);
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+        
+        body {
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.05) 0px, transparent 50%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ========== HEADER & NAVIGATION ========== */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            padding: 1rem 0;
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--white);
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .tagline {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        /* ========== PAGE HEADER ========== */
+        .page-header {
+            text-align: center;
+            padding: 4rem 0 2rem;
+            position: relative;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .page-header .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            border: 2px solid var(--secondary-blue);
+        }
+        
+        /* ========== RULES CONTAINER ========== */
+        .rules-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin: 2rem 0 4rem;
+        }
+        
+        @media (max-width: 968px) {
+            .rules-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* ========== ELIGIBILITY SECTION ========== */
+        .eligibility-section, .rules-section {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+        
+        .section-header i {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: var(--gray-800);
+            font-weight: 700;
+        }
+        
+        .section-subtitle {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        .criteria-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .criterion-card {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--success-green);
+            transition: all 0.3s ease;
+        }
+        
+        .criterion-card.ineligible {
+            border-left-color: var(--error-red);
+            background: #fef2f2;
+        }
+        
+        .criterion-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .criterion-icon {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background: var(--light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+        
+        .ineligible .criterion-icon {
+            background: #fee2e2;
+            color: var(--error-red);
+        }
+        
+        .criterion-content h3 {
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .criterion-content p {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+        .rules-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .rule-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--warning-orange);
+            transition: all 0.3s ease;
+        }
+        
+        .rule-item.important {
+            border-left-color: var(--error-red);
+            background: #fef3c7;
+        }
+        
+        .rule-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .rule-number {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--warning-orange);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .rule-item.important .rule-number {
+            background: var(--error-red);
+        }
+        
+        .rule-content h3 {
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .rule-content p {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+        .important-notice {
+            background: linear-gradient(135deg, #fff7ed 0%, #fffbeb 100%);
+            border: 2px solid var(--warning-orange);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .important-notice::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--warning-orange), var(--error-red));
+        }
+        
+        .notice-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .notice-header i {
+            font-size: 2.5rem;
+            color: var(--warning-orange);
+        }
+        
+        .notice-header h2 {
+            color: var(--gray-800);
+            font-size: 1.8rem;
+        }
+        
+        .notice-content {
+            color: var(--gray-700);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .notice-content ul {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+        
+        .notice-content li {
+            margin-bottom: 0.8rem;
+            color: var(--gray-700);
+        }
+        
+        .notice-content strong {
+            color: var(--error-red);
+        }
+        
+        /* ========== TIMELINE ========== */
+        .timeline-section {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gray-300);
+            z-index: 1;
+        }
+        
+        .timeline-point {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .point-circle {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-blue);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .point-circle.active {
+            background: var(--success-green);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .point-label {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+        
+        .point-date {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+        
+        /* ========== FOOTER ========== */
+        footer {
+            background: var(--gray-800);
+            color: var(--white);
+            margin-top: auto;
+            padding-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            padding-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-section h3 i {
+            color: var(--secondary-blue);
+        }
+        
+        .footer-section p {
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .footer-section p i {
+            margin-right: 10px;
+            color: var(--secondary-blue);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        
+        .footer-bottom {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-bottom .container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .footer-bottom p {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .disclaimer {
+            color: #fbbf24 !important;
+            font-size: 0.85rem !important;
+        }
+        
+        .disclaimer i {
+            margin-right: 8px;
+        }
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .eligibility-section, .rules-section,
+            .important-notice, .timeline-section {
+                padding: 1.5rem;
+            }
+            
+            .timeline {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .timeline::before {
+                display: none;
+            }
+            
+            .timeline-point {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+                text-align: left;
+            }
+            
+            .point-circle {
+                margin: 0;
+                flex-shrink: 0;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            nav ul {
+                justify-content: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <div>
+                    <h1>OFFICIAL ONLINE VOTING PORTAL</h1>
+                    <div class="tagline">Secure • Accessible • Verified</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> HOME</a></li>
+                    <li><a href="results.html"><i class="fas fa-chart-bar"></i> RESULTS</a></li>
+                    <li><a href="rules.html" class="active"><i class="fas fa-book"></i> RULES</a></li>
+                     <li><a href="aboute.html">ABOUT</a></li>
+                    <li><a href="HELP.HTML">HELP</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        <div class="page-header">
+            <span class="status-badge">ELECTION 2024</span>
+            <h1>Voting Eligibility & Rules</h1>
+            <p class="subtitle">Official guidelines for voter eligibility and election regulations</p>
+        </div>
+        <div class="rules-container">
+            <section class="eligibility-section">
+                <div class="section-header">
+                    <i class="fas fa-user-check"></i>
+                    <div>
+                        <h2>Voter Eligibility</h2>
+                        <p class="section-subtitle">Who can vote in this election</p>
+                    </div>
+                </div>
+
+                <div class="criteria-grid">
+                    <div class="criterion-card">
+                        <div class="criterion-icon">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                        <div class="criterion-content">
+                            <h3>Age Requirement</h3>
+                            <p>Must be <strong>18 years or older</strong> on election day. Proof of age may be required.</p>
+                        </div>
+                    </div>
+
+                    <div class="criterion-card">
+                        <div class="criterion-icon">
+                            <i class="fas fa-passport"></i>
+                        </div>
+                        <div class="criterion-content">
+                            <h3>Citizenship</h3>
+                            <p>Must be a <strong>registered citizen</strong> of the country. Dual citizens may vote in national elections only.</p>
+                        </div>
+                    </div>
+
+                    <div class="criterion-card">
+                        <div class="criterion-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="criterion-content">
+                            <h3>Residency</h3>
+                            <p>Must be a <strong>resident of the electoral district</strong> for at least 30 days before registration.</p>
+                        </div>
+                    </div>
+
+                    <div class="criterion-card ineligible">
+                        <div class="criterion-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <div class="criterion-content">
+                            <h3>Felony Conviction</h3>
+                            <p>Individuals currently serving <strong>felony sentences</strong> are ineligible to vote until sentence completion.</p>
+                        </div>
+                    </div>
+
+                    <div class="criterion-card">
+                        <div class="criterion-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="criterion-content">
+                            <h3>Mental Competency</h3>
+                            <p>Must be of <strong>sound mind</strong> and not under legal guardianship for voting rights.</p>
+                        </div>
+                    </div>
+
+                    <div class="criterion-card">
+                        <div class="criterion-icon">
+                            <i class="fas fa-user-tag"></i>
+                        </div>
+                        <div class="criterion-content">
+                            <h3>Registration Status</h3>
+                            <p>Must be <strong>registered to vote</strong> at least 15 days before the election date.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="rules-section">
+                <div class="section-header">
+                    <i class="fas fa-clipboard-list"></i>
+                    <div>
+                        <h2>Voting Rules</h2>
+                        <p class="section-subtitle">Regulations for casting your vote</p>
+                    </div>
+                </div>
+
+                <div class="rules-list">
+                    <div class="rule-item">
+                        <div class="rule-number">1</div>
+                        <div class="rule-content">
+                            <h3>One Vote Per Person</h3>
+                            <p>Each registered voter may cast <strong>only one ballot</strong> per election. Multiple voting is illegal.</p>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div class="rule-number">2</div>
+                        <div class="rule-content">
+                            <h3>Secret Ballot</h3>
+                            <p>All votes are <strong>confidential and anonymous</strong>. No one can trace your vote back to you.</p>
+                        </div>
+                    </div>
+
+                    <div class="rule-item important">
+                        <div class="rule-number">3</div>
+                        <div class="rule-content">
+                            <h3>No Electioneering</h3>
+                            <p>Campaigning or discussing candidates <strong>within voting areas</strong> is strictly prohibited.</p>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div class="rule-number">4</div>
+                        <div class="rule-content">
+                            <h3>Valid Identification</h3>
+                            <p>Government-issued ID <strong>must be presented</strong> before receiving a ballot.</p>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div class="rule-number">5</div>
+                        <div class="rule-content">
+                            <h3>Time Limit</h3>
+                            <p>You have <strong>10 minutes</strong> to complete your ballot once you begin voting.</p>
+                        </div>
+                    </div>
+
+                    <div class="rule-item important">
+                        <div class="rule-number">6</div>
+                        <div class="rule-content">
+                            <h3>No Assistance</h3>
+                            <p>You must vote <strong>independently</strong> unless you have registered for assisted voting.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="important-notice">
+            <div class="notice-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Important Notice</h2>
+            </div>
+            <div class="notice-content">
+                <p><strong>Violation of voting rules may result in:</strong></p>
+                <ul>
+                    <li>Immediate <strong>disqualification</strong> of your ballot</li>
+                    <li>Legal prosecution under <strong>Election Fraud Act</strong></li>
+                    <li>Fines up to <strong>$10,000</strong> and/or imprisonment</li>
+                    <li>Loss of <strong>voting rights</strong> for future elections</li>
+                    <li>Criminal record for <strong>election offenses</strong></li>
+                </ul>
+                <p>If you witness any suspicious activity, report immediately to election officials.</p>
+            </div>
+        </div>
+        <div class="timeline-section">
+            <div class="section-header">
+                <i class="fas fa-calendar-alt"></i>
+                <div>
+                    <h2>Election Timeline</h2>
+                    <p class="section-subtitle">Important dates and deadlines</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-point">
+                    <div class="point-circle">1</div>
+                    <div class="point-label">Registration Opens</div>
+                    <div class="point-date">Oct 1, 2024</div>
+                </div>
+                
+                <div class="timeline-point">
+                    <div class="point-circle">2</div>
+                    <div class="point-label">Registration Deadline</div>
+                    <div class="point-date">Oct 25, 2024</div>
+                </div>
+                
+                <div class="timeline-point">
+                    <div class="point-circle active">3</div>
+                    <div class="point-label">Early Voting</div>
+                    <div class="point-date">Oct 28 - Nov 4</div>
+                </div>
+                
+                <div class="timeline-point">
+                    <div class="point-circle">4</div>
+                    <div class="point-label">Election Day</div>
+                    <div class="point-date">Nov 5, 2024</div>
+                </div>
+                
+                <div class="timeline-point">
+                    <div class="point-circle">5</div>
+                    <div class="point-label">Results Certification</div>
+                    <div class="point-date">Nov 10, 2024</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-landmark"></i> Election Commission</h3>
+                <p>National Election Authority<br>123 Democracy Ave<br>Capital City, CC 10101</p>
+                <p><i class="fas fa-phone"></i> 1-800-VOTE-NOW</p>
+                <p><i class="fas fa-envelope"></i> help@vote.gov</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="rules.html"><i class="fas fa-book"></i> Voting Rules</a>
+                    <a href="policy.html"><i class="fas fa-lock"></i> Privacy Policy</a>
+                    <a href="acc.html"><i class="fas fa-universal-access"></i> Accessibility</a>
+                    <a href="#"><i class="fas fa-headset"></i> Contact Officials</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Verification</h3>
+                <p><i class="fas fa-check-circle"></i> End-to-End Encryption</p>
+                <p><i class="fas fa-shield-alt"></i> Independently Audited</p>
+                <p><i class="fas fa-user-shield"></i> Anonymous Voting</p>
+                <p><i class="fas fa-clipboard-check"></i> Paper Trail Verified</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>© 2024 National Election Commission. All rights reserved. This is an official government voting system.</p>
+                <p class="disclaimer"><i class="fas fa-exclamation-triangle"></i> This system is for authorized voters only. Unauthorized access is prohibited.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+    // Simple Language Changer
+    document.addEventListener('DOMContentLoaded', function() {
+        const langButtons = document.querySelectorAll('.language-btn');
+        
+        langButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const lang = this.textContent.trim();
+                
+                // Remove active class from all buttons
+                langButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Show alert (for demo)
+                alert(`Language switched to ${lang}. In a real system, this would change all page content.`);
+                
+                // Save preference
+                localStorage.setItem('language', lang);
+            });
+        });
+        
+        // Load saved language
+        const savedLang = localStorage.getItem('language');
+        if (savedLang) {
+            langButtons.forEach(btn => {
+                if (btn.textContent.trim() === savedLang) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
