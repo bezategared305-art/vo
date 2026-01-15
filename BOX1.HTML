@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter Login - Official Voting Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            padding: 1rem 0;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo .tagline {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 2rem 0;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 500px;
+            border-top: 4px solid #3b82f6;
+        }
+        
+        .login-title {
+            color: #1e40af;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .login-subtitle {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #475569;
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .login-help {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #64748b;
+        }
+        
+        .login-help a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        
+        .login-help a:hover {
+            text-decoration: underline;
+        }
+        
+        .security-notice {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border-left: 4px solid #16a34a;
+        }
+        
+        .security-notice h4 {
+            color: #166534;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .login-box {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <h1>OFFICIAL ONLINE VOTING PORTAL</h1>
+                <div class="tagline">Secure • Accessible • Verified</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="#" class="active">VOTER LOGIN</a></li>
+                    <li><a href="results.html">RESULT</a></li>
+                    <li><a href="rules.html">RULES</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <div class="login-box">
+                <h2 class="login-title">Voter Login</h2>
+                <p class="login-subtitle">Enter your government-issued credentials to access your ballot</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Voter ID Number</label>
+                        <input type="text" class="form-input" placeholder="Enter your 12-digit Voter ID" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">PIN Code</label>
+                        <input type="password" class="form-input" placeholder="Enter 6-digit PIN" maxlength="6" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Login to Vote</button>
+                </form>
+                
+                <div class="login-help">
+                    <p>Need help? <a href="HELP.HTML">Visit our help center</a></p>
+                    <p><a href="#">Forgot your PIN?</a> | <a href="#">Find your Voter ID</a></p>
+                </div>
+                
+                <div class="security-notice">
+                    <h4>🔒 Secure Login</h4>
+                    <p>Your credentials are encrypted end-to-end. This session will expire after 15 minutes of inactivity.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="POLYCY.HTML">Privacy Policy</a>
+                <a href="#">Security</a>
+                <a href="#">Contact</a>
+                <a href="HELP.HTML">Help</a>
+            </div>
+            <div>
+                <p>© 2024 National Election Commission. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const voterId = this.querySelector('input[type="text"]').value;
+                const pin = this.querySelector('input[type="password"]').value;
+                if (voterId.length !== 12) {
+                    alert('Voter ID must be 12 digits');
+                    return;
+                }
+                
+                if (pin.length !== 6) {
+                    alert('PIN must be 6 digits');
+                    return;
+                }
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Verifying...';
+                submitBtn.disabled = true;
+                setTimeout(() => {
+                    alert('Login successful! Redirecting to voting page...');
+                    window.location.href = 'LEM2.HTML';
+                }, 1500);
+            });
+            const dobInput = document.querySelector('input[type="date"]');
+            dobInput.addEventListener('focus', function() {
+                this.type = 'date';
+            });
+            
+            dobInput.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.type = 'text';
+                    this.placeholder = 'MM/DD/YYYY';
+                }
+            });
+            dobInput.type = 'text';
+            dobInput.placeholder = 'MM/DD/YYYY';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CivicVote - Voter Login</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2e6d7a",
+                        "background-light": "#f9fafb",
+                        "background-dark": "#1c2126",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen flex flex-col justify-center items-center bg-background-light dark:bg-background-dark relative overflow-x-hidden">
+    <div class="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none">
+        <div class="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl"></div>
+        <div class="absolute top-[40%] -left-[10%] w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl"></div>
+    </div>
+    <main
+        class="w-full max-w-md mx-auto z-10 p-6 md:p-10 md:bg-white md:dark:bg-[#252a30] md:shadow-2xl md:rounded-2xl md:border md:border-gray-100 md:dark:border-gray-800 transition-all">
+        <div class="mb-10 flex flex-col items-center">
+            <div class="size-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined text-primary text-3xl">how_to_vote</span>
+            </div>
+            <h1 class="text-2xl font-extrabold tracking-tight text-center text-[#111718] dark:text-white">Voter Login
+            </h1>
+            <p class="mt-2 text-gray-500 dark:text-gray-400 text-sm text-center max-w-[260px]">
+                Enter your credentials to access the 2024 CivicVote Ballot.
+            </p>
+        </div>
+        <form class="space-y-6" action="vote.html">
+            <div class="space-y-4">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold uppercase tracking-wider text-gray-500 ml-1">Voter ID</label>
+                    <div class="relative group">
+                        <span
+                            class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[20px] group-focus-within:text-primary transition-colors">badge</span>
+                        <input autocomplete="username"
+                            class="w-full h-14 pl-12 pr-4 bg-white dark:bg-[#1c2126] border border-gray-200 dark:border-gray-700 rounded-xl text-base font-medium text-[#111718] dark:text-white transition-all focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-gray-300 dark:placeholder:text-gray-600 md:bg-gray-50 md:dark:bg-[#1c2126]"
+                            placeholder="V-000-000-000" type="text" required />
+                    </div>
+                </div>
+                <div class="space-y-1.5">
+                    <div class="flex justify-between items-end ml-1">
+                        <label class="text-xs font-bold uppercase tracking-wider text-gray-500">Security PIN</label>
+                    </div>
+                    <div class="relative group">
+                        <span
+                            class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[20px] group-focus-within:text-primary transition-colors">lock</span>
+                        <input autocomplete="current-password"
+                            class="w-full h-14 pl-12 pr-12 bg-white dark:bg-[#1c2126] border border-gray-200 dark:border-gray-700 rounded-xl text-base font-medium text-[#111718] dark:text-white transition-all focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-gray-300 dark:placeholder:text-gray-600 md:bg-gray-50 md:dark:bg-[#1c2126]"
+                            placeholder="••••••••" type="password" required />
+                        <button
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                            type="button">
+                            <span class="material-symbols-outlined text-[20px]">visibility</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-4 mt-6">
+                <button type="submit"
+                    class="w-full h-14 bg-primary hover:bg-[#235560] text-white font-bold rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    <span>Authenticate &amp; Vote</span>
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                </button>
+                <div class="text-center">
+                    <a class="text-gray-500 dark:text-gray-400 text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors"
+                        href="#">
+                        Issue with ID? <span class="text-primary underline underline-offset-4 decoration-2">Help
+                            Center</span>
+                    </a>
+                </div>
+            </div>
+        </form>
+        <div class="mt-8 pt-8 border-t border-dashed border-gray-200 dark:border-gray-700/50">
+            <div class="flex flex-col items-center gap-4">
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800/50 rounded-full">
+                    <span class="material-symbols-outlined text-gray-500 text-[16px]">shield_lock</span>
+                    <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Secure Session</span>
+                </div>
+                <a href="addmission.html"
+                    class="flex items-center gap-1.5 opacity-50 hover:opacity-100 transition-opacity group">
+                    <span
+                        class="material-symbols-outlined text-[16px] text-gray-400 group-hover:text-primary">admin_panel_settings</span>
+                    <span class="text-xs font-bold text-gray-400 group-hover:text-primary text-center">Administrator
+                        Portal</span>
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track My Vote - Official Voting Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            padding: 1rem 0;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo .tagline {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 3rem 0;
+        }
+        
+        .page-title {
+            color: #1e40af;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .page-subtitle {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .track-form {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            border-top: 4px solid #3b82f6;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #475569;
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .result-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+            display: none;
+        }
+        
+        .tracking-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .verification-code {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin: 1rem auto;
+            display: inline-block;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #3b82f6;
+        }
+        
+        .timeline-step {
+            position: relative;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #3b82f6;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #3b82f6;
+        }
+        
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: #1e40af;
+        }
+        
+        .step-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-processing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .step-time {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .step-details {
+            color: #475569;
+            margin-top: 0.5rem;
+        }
+        
+        .info-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            color: #64748b;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+        
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .track-form, .result-box {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .timeline {
+                padding-left: 20px;
+            }
+            
+            .timeline::before {
+                left: 10px;
+            }
+            
+            .timeline-step::before {
+                left: -20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <h1>OFFICIAL ONLINE VOTING PORTAL</h1>
+                <div class="tagline">Secure • Accessible • Verified</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="BOX1.HTML">VOTER LOGIN</a></li>
+                    <li><a href="registration.html">REGISTRATION</a></li>
+                    <li><a href="#" class="active">TRACK VOTE</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">Track My Vote</h1>
+            <p class="page-subtitle">Confirm your ballot was received and counted using your verification code</p>
+            
+            <div class="track-form">
+                <h2 style="color: #1e40af; margin-bottom: 1.5rem;">Enter Verification Details</h2>
+                <form id="trackForm">
+                    <div class="form-group">
+                        <label class="form-label">Verification Code</label>
+                        <input type="text" class="form-input" placeholder="Enter 16-character code" required>
+                        <small style="color: #64748b; display: block; margin-top: 0.5rem;">This code was provided when you submitted your ballot</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Last 4 digits of SSN</label>
+                        <input type="text" class="form-input" placeholder="XXXX" maxlength="4" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" class="form-input" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Track Ballot</button>
+                </form>
+            </div>
+            
+            <div class="result-box" id="resultBox">
+                <div class="tracking-header">
+                    <h2 style="color: #1e40af; margin-bottom: 1rem;">Ballot Tracking Status</h2>
+                    <div class="verification-code" id="verificationCode">VTR-X7B9-2K4M-8P3Q</div>
+                    <p>Your ballot verification code</p>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="step-header">
+                            <div class="step-title">Ballot Submitted</div>
+                            <div class="step-status status-completed">COMPLETED</div>
+                        </div>
+                        <div class="step-time">Today, 10:24 AM</div>
+                        <div class="step-details">Your ballot was successfully submitted via online portal</div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-header">
+                            <div class="step-title">Verification Received</div>
+                            <div class="step-status status-completed">COMPLETED</div>
+                        </div>
+                        <div class="step-time">Today, 10:25 AM</div>
+                        <div class="step-details">Voter identity verified and ballot authenticated</div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-header">
+                            <div class="step-title">Encryption Processed</div>
+                            <div class="step-status status-processing">IN PROGRESS</div>
+                        </div>
+                        <div class="step-time">Today, 10:30 AM</div>
+                        <div class="step-details">Ballot encrypted and added to secure blockchain</div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-header">
+                            <div class="step-title">Added to Official Count</div>
+                            <div class="step-status status-pending">PENDING</div>
+                        </div>
+                        <div class="step-time">Election Day, 8:00 PM</div>
+                        <div class="step-details">Will be counted with all ballots after polls close</div>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3 style="color: #1e40af; margin-bottom: 1rem;">Ballot Information</h3>
+                    <div class="info-row">
+                        <span class="info-label">Ballot ID</span>
+                        <span class="info-value" id="ballotId">BLT-2024-784512</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Submission Method</span>
+                        <span class="info-value">Online Portal</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Submission Time</span>
+                        <span class="info-value" id="submissionTime">Today, 10:24:17 AM</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">IP Address</span>
+                        <span class="info-value">192.168.xxx.xxx (Masked)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Location</span>
+                        <span class="info-value">District 12, Precinct 8</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Confirmation Email</span>
+                        <span class="info-value">Sent to registered email</span>
+                    </div>
+                </div>
+                
+                <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+                    <h4 style="color: #1e40af; margin-bottom: 0.5rem;">📋 Important Notes</h4>
+                    <ul style="color: #475569; margin-left: 1.5rem;">
+                        <li>Your ballot is secure and cannot be altered</li>
+                        <li>This tracking information is for your records only</li>
+                        <li>Final results will be announced after polls close</li>
+                        <li>Keep your verification code confidential</li>
+                    </ul>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="downloadReceipt()">Download Receipt</button>
+                    <a href="index.html" class="btn btn-secondary">Return to Home</a>
+                    <button class="btn btn-secondary" onclick="printTracking()">Print Tracking Info</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="POLYCY.HTML">Privacy Policy</a>
+                <a href="#">Security Audit</a>
+                <a href="#">Contact Election Commission</a>
+                <a href="HELP.HTML">Help & Support</a>
+            </div>
+            <div>
+                <p>© 2024 National Election Commission. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('trackForm');
+            const resultBox = document.getElementById('resultBox');
+            
+            // Sample verification codes for demo
+            const sampleCodes = [
+                'VTR-X7B9-2K4M-8P3Q',
+                'VTR-5A2C-9D8E-1F6G',
+                'VTR-3H7J-4K5L-2M8N',
+                'VTR-8P9Q-6R7S-1T2U'
+            ];
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const code = this.querySelector('input[placeholder="Enter 16-character code"]').value;
+                const ssn = this.querySelector('input[placeholder="XXXX"]').value;
+                const dob = this.querySelector('input[type="date"]').value;
+                
+                // Simple validation
+                if (!code || !ssn || !dob) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                if (ssn.length !== 4 || isNaN(ssn)) {
+                    alert('Please enter last 4 digits of your SSN');
+                    return;
+                }
+                
+                if (code.length < 16) {
+                    alert('Verification code must be at least 16 characters');
+                    return;
+                }
+                
+                // Show loading
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Tracking...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Generate random verification code
+                    const randomCode = sampleCodes[Math.floor(Math.random() * sampleCodes.length)];
+                    document.getElementById('verificationCode').textContent = randomCode;
+                    
+                    // Generate random ballot ID
+                    const ballotId = 'BLT-2024-' + Math.floor(100000 + Math.random() * 900000);
+                    document.getElementById('ballotId').textContent = ballotId;
+                    
+                    // Set current time
+                    const now = new Date();
+                    const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+                    document.getElementById('submissionTime').textContent = `Today, ${timeStr}`;
+                    
+                    // Update timeline status randomly for demo
+                    const statuses = document.querySelectorAll('.step-status');
+                    const statusClasses = ['status-completed', 'status-processing', 'status-pending'];
+                    const statusTexts = ['COMPLETED', 'IN PROGRESS', 'PENDING'];
+                    
+                    statuses.forEach((status, index) => {
+                        if (index < 2) {
+                            // First two steps always completed
+                            status.className = 'step-status status-completed';
+                            status.textContent = 'COMPLETED';
+                        } else if (index === 2) {
+                            // Third step in progress
+                            status.className = 'step-status status-processing';
+                            status.textContent = 'IN PROGRESS';
+                        } else {
+                            // Last step pending
+                            status.className = 'step-status status-pending';
+                            status.textContent = 'PENDING';
+                        }
+                    });
+                    resultBox.style.display = 'block';
+                    resultBox.style.animation = 'fadeIn 0.5s ease-out';
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    resultBox.scrollIntoView({ behavior: 'smooth' });
+                    
+                }, 1500);
+            });
+            const dobInput = document.querySelector('input[type="date"]');
+            dobInput.addEventListener('focus', function() {
+                this.type = 'date';
+            });
+            
+            dobInput.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.type = 'text';
+                    this.placeholder = 'MM/DD/YYYY';
+                }
+            });
+            dobInput.type = 'text';
+            dobInput.placeholder = 'MM/DD/YYYY';
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+        
+        function downloadReceipt() {
+            const receiptContent = `
+                
+                Verification Code: ${document.getElementById('verificationCode').textContent}
+                Ballot ID: ${document.getElementById('ballotId').textContent}
+                Submission Time: ${document.getElementById('submissionTime').textContent}
+                Status: Successfully Submitted
+                
+                Generated on: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
+            `;
+            
+            const blob = new Blob([receiptContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ballot-receipt.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            alert('Receipt downloaded successfully!');
+        }
+        
+        function printTracking() {
+            const printContent = document.getElementById('resultBox').innerHTML;
+            const originalContent = document.body.innerHTML;
+            
+            document.body.innerHTML = `
+                ${new Date().toLocaleDateString()}</p>
+                    ${printContent}
+            `;
+            window.print();
+            document.body.innerHTML = originalContent;
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Mercha Bore - E-Voting Solutions</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Language Switcher -->
+    <script src="language.js" defer></script>
+    
+    <style>
+        /* ========== RESET & BASE STYLES ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --dark-blue: #1e3a8a;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-400: #94a3b8;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --white: #ffffff;
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.1);
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+        
+        body {
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ========== HEADER & NAVIGATION ========== */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            padding: 1rem 0;
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--white);
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .tagline {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        /* ========== ABOUT HERO ========== */
+        .about-hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .about-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .about-hero .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* ========== COMPANY INFO ========== */
+        .company-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin: 4rem 0;
+            align-items: center;
+        }
+        
+        @media (max-width: 968px) {
+            .company-info {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .company-text h2 {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+        
+        .company-text p {
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .company-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-box {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .company-image {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .company-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--light-blue), var(--white));
+        }
+        
+        /* ========== MISSION & VISION ========== */
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .mission-vision {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .mission-card, .vision-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid var(--secondary-blue);
+        }
+        
+        .mission-card::before, .vision-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-blue), var(--success-green));
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+        }
+        
+        .mission-card h3, .vision-card h3 {
+            font-size: 1.8rem;
+            color: var(--gray-800);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .mission-card p, .vision-card p {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        /* ========== VALUES ========== */
+        .values-section {
+            margin: 4rem 0;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .value-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--secondary-blue);
+        }
+        
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--primary-blue);
+        }
+        
+        .value-card h4 {
+            font-size: 1.3rem;
+            color: var(--gray-800);
+            margin-bottom: 1rem;
+        }
+        
+        .value-card p {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+        
+        /* ========== TEAM SECTION ========== */
+        .team-section {
+            margin: 4rem 0;
+            text-align: center;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .team-member {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--light-blue), var(--white));
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-blue);
+            border: 5px solid var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .team-member h4 {
+            font-size: 1.3rem;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member .position {
+            color: var(--secondary-blue);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .team-member p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+        
+        /* ========== FOOTER ========== */
+        footer {
+            background: var(--gray-800);
+            color: var(--white);
+            margin-top: auto;
+            padding-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            padding-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+        
+        .footer-section p {
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        
+        /* Language Selector */
+        .languages {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .language-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--gray-400);
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        
+        .language-btn.active {
+            background: var(--secondary-blue);
+            color: var(--white);
+            border-color: var(--secondary-blue);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .language-btn i {
+            font-size: 1rem;
+        }
+        
+        .footer-bottom {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-bottom p {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .disclaimer {
+            color: #fbbf24 !important;
+            font-size: 0.85rem !important;
+        }
+        
+        .disclaimer i {
+            margin-right: 8px;
+        }
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .company-text h2 {
+                font-size: 2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            nav ul {
+                justify-content: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== HEADER ========== -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <div>
+                    <h1>OFFICIAL ONLINE VOTING PORTAL</h1>
+                    <div class="tagline" data-translate="tagline">Secure • Accessible • Verified</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" data-translate="home"><i class="fas fa-home"></i> HOME</a></li>
+                    <li><a href="#" data-translate="ballot"><i class="fas fa-ballot"></i> MY BALLOT</a></li>
+                    <li><a href="#" data-translate="locator"><i class="fas fa-map-marker-alt"></i> LOCATOR</a></li>
+                     <li><a href="results.html">RESULT</a></li>
+                    <li><a href="rules.html" data-translate="rules"><i class="fas fa-book"></i> RULES</a></li>
+                    <li><a href="index.html" class="active"><i class="fas fa-info-circle"></i> ABOUT</a></li>
+                    <li><a href="help.html"><i class="fas fa-question-circle"></i> HELP</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ========== ABOUT HERO ========== -->
+    <section class="about-hero">
+        <div class="container">
+            <h1>About Mercha Bore</h1>
+            <p class="subtitle">Pioneering Secure Digital Democracy Solutions Since 2010</p>
+        </div>
+    </section>
+
+    <!-- ========== COMPANY INFO ========== -->
+    <main class="container">
+        <section class="company-info">
+            <div class="company-text">
+                <h2>Who We Are</h2>
+                <p>
+                    <strong>Mercha Bore</strong> is a global leader in secure digital voting solutions, 
+                    dedicated to revolutionizing democratic processes through cutting-edge technology. 
+                    Founded in 2010 by cybersecurity experts and democratic process specialists, 
+                    we've grown to become the trusted partner for governments and organizations 
+                    in over 35 countries.
+                </p>
+                <p>
+                    Our mission is simple: to make voting more accessible, secure, and transparent 
+                    for everyone. We believe that technology should enhance democracy, not complicate it. 
+                    That's why we've developed the world's most secure e-voting platform, combining 
+                    military-grade encryption with user-friendly interfaces.
+                </p>
+                
+                <div class="company-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">35+</div>
+                        <div class="stat-label">Countries</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">250M+</div>
+                        <div class="stat-label">Votes Processed</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">14</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">99.99%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="company-image">
+                <!-- Placeholder for company image -->
+                <div style="background: linear-gradient(135deg, var(--light-blue), var(--white)); height: 300px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--primary-blue); font-size: 2rem;">
+                    <i class="fas fa-building"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== MISSION & VISION ========== -->
+        <section class="mission-vision">
+            <div class="mission-card">
+                <div class="card-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3>Our Mission</h3>
+                <p>
+                    To empower democratic processes worldwide through innovative, secure, 
+                    and accessible digital voting solutions that ensure every voice is heard 
+                    and every vote is counted with absolute integrity.
+                </p>
+            </div>
+            
+            <div class="vision-card">
+                <div class="card-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Our Vision</h3>
+                <p>
+                    A world where technology eliminates barriers to participation, 
+                    where trust in electoral processes is universal, and where 
+                    democracy is strengthened through transparent, secure digital infrastructure.
+                </p>
+            </div>
+        </section>
+
+        <!-- ========== CORE VALUES ========== -->
+        <section class="values-section">
+            <h2 style="text-align: center; font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1rem;">
+                Our Core Values
+            </h2>
+            <p style="text-align: center; color: var(--gray-600); max-width: 700px; margin: 0 auto 3rem; font-size: 1.1rem;">
+                These principles guide everything we do at Mercha Bore
+            </p>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Security First</h4>
+                    <p>Military-grade encryption and continuous security audits ensure impenetrable protection for every vote.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-universal-access"></i>
+                    </div>
+                    <h4>Accessibility</h4>
+                    <p>Our platforms are designed for everyone, regardless of technical ability or physical limitations.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                    <h4>Transparency</h4>
+                    <p>Open-source algorithms and verifiable audit trails build trust in every election we support.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>Integrity</h4>
+                    <p>We maintain the highest ethical standards and are accountable for every system we deploy.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== LEADERSHIP TEAM ========== -->
+        <section class="team-section">
+            <h2 style="font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1rem;">
+                Our Leadership Team
+            </h2>
+            <p style="color: var(--gray-600); max-width: 700px; margin: 0 auto; font-size: 1.1rem;">
+                The experts behind our secure voting technology
+            </p>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4>Dr. Elena Rodriguez</h4>
+                    <p class="position">CEO & Founder</p>
+                    <p>Former cybersecurity director with 20+ years in digital security infrastructure.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4>Marcus Chen</h4>
+                    <p class="position">CTO</p>
+                    <p>Lead architect of our blockchain-based voting verification system.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <h4>Sarah Johnson</h4>
+                    <p class="position">Legal Director</p>
+                    <p>Expert in election law and international democratic standards.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h4>David Park</h4>
+                    <p class="position">Security Director</p>
+                    <p>Former NSA cybersecurity specialist overseeing all security protocols.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-landmark"></i> Election Commission</h3>
+                <p>National Election Authority<br>123 Democracy Ave<br>Capital City, CC 10101</p>
+                <p><i class="fas fa-phone"></i> 1-800-VOTE-NOW</p>
+                <p><i class="fas fa-envelope"></i> help@vote.gov</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-translate="quickLinks">Quick Links</h3>
+                <div class="footer-links">
+                    <a href="rules.html" data-translate="rules"><i class="fas fa-book"></i> Voting Rules</a>
+                    <a href="POLYCY.HTML" data-translate="privacyPolicy"><i class="fas fa-lock"></i> Privacy Policy</a>
+                    <a href="acc.html" data-translate="accessibility"><i class="fas fa-universal-access"></i> Accessibility</a>
+                    <a href="#" data-translate="contactOfficials"><i class="fas fa-headset"></i> Contact Officials</a>
+                    <a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a>
+                </div>
+                <div class="languages">
+                    <button class="language-btn" data-lang="english">
+                        <i class="fas fa-language"></i> English
+                    </button>
+                    <button class="language-btn" data-lang="spanish">
+                        <i class="fas fa-language"></i> Español
+                    </button>
+                    <button class="language-btn" data-lang="french">
+                        <i class="fas fa-language"></i> Français
+                    </button>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3 data-translate="verifiedSystem">Verified System</h3>
+                <p><i class="fas fa-check-circle"></i> End-to-End Encryption</p>
+                <p><i class="fas fa-shield-alt"></i> Independently Audited</p>
+                <p><i class="fas fa-user-shield"></i> Anonymous Voting</p>
+                <p><i class="fas fa-clipboard-check"></i> Paper Trail Verified</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>© 2024 National Election Commission. Powered by Mercha Bore Secure Voting Technology.</p>
+                <p class="disclaimer"><i class="fas fa-exclamation-triangle"></i> This system is for authorized voters only. Unauthorized access is prohibited.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

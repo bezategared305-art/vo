@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Status - Official Voting Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            padding: 1rem 0;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo .tagline {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 3rem 0;
+        }
+        
+        .page-title {
+            color: #1e40af;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .page-subtitle {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .check-form {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            border-top: 4px solid #3b82f6;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #475569;
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .result-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+            display: none;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-item {
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+        
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .check-form, .result-box {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <h1>OFFICIAL ONLINE VOTING PORTAL</h1>
+                <div class="tagline">Secure • Accessible • Verified</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="BOX1.HTML">VOTER LOGIN</a></li>
+                    <li><a href="#" class="active">REGISTRATION</a></li>
+                    <li><a href="rules.html">RULES</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">Check Registration Status</h1>
+            <p class="page-subtitle">Verify your voter registration eligibility and details before participating in the election</p>
+            
+            <div class="check-form">
+                <h2 style="color: #1e40af; margin-bottom: 1.5rem;">Enter Your Information</h2>
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label class="form-label">Full Name (as on ID)</label>
+                        <input type="text" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Social Security Number (Last 4 digits)</label>
+                        <input type="text" class="form-input" placeholder="XXXX" maxlength="4" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">ZIP Code</label>
+                        <input type="text" class="form-input" placeholder="Enter your ZIP code" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Check Status</button>
+                </form>
+            </div>
+            
+            <div class="result-box" id="resultBox">
+                <div class="result-header">
+                    <h2 style="color: #1e40af;">Registration Status</h2>
+                    <div class="status-badge status-active" id="statusBadge">ACTIVE</div>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Registration Status</div>
+                        <div class="info-value" id="regStatus">Active</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Voter ID Number</div>
+                        <div class="info-value" id="voterId">VTR-7845129630</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Polling Location</div>
+                        <div class="info-value" id="pollingLocation">Central High School, District 12</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Registration Date</div>
+                        <div class="info-value" id="regDate">October 15, 2023</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Last Updated</div>
+                        <div class="info-value" id="lastUpdated">March 22, 2024</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Eligibility</div>
+                        <div class="info-value" id="eligibility">Eligible to Vote</div>
+                    </div>
+                </div>
+                
+                <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+                    <h4 style="color: #1e40af; margin-bottom: 0.5rem;">Next Steps</h4>
+                    <p>Your registration is active and you are eligible to vote in the upcoming National General Election 2024. You may vote online or at your designated polling location.</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="BOX1.HTML" class="btn btn-primary">Proceed to Vote</a>
+                    <a href="index.html" class="btn btn-secondary">Return to Home</a>
+                    <button class="btn btn-secondary" onclick="printResult()">Print Confirmation</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="POLYCY.HTML">Privacy Policy</a>
+                <a href="#">Update Registration</a>
+                <a href="#">Contact</a>
+                <a href="HELP.HTML">Help</a>
+            </div>
+            <div>
+                <p>© 2024 National Election Commission. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const resultBox = document.getElementById('resultBox');
+            const sampleData = {
+                name: "John Alexander Smith",
+                status: "Active",
+                voterId: "VTR-7845129630",
+                pollingLocation: "Central High School, District 12",
+                regDate: "October 15, 2023",
+                lastUpdated: "March 22, 2024",
+                eligibility: "Eligible to Vote"
+            };
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = this.querySelector('input[type="text"]').value;
+                const dob = this.querySelector('input[type="date"]').value;
+                const ssn = this.querySelector('input[placeholder="XXXX"]').value;
+                const zip = this.querySelector('input[placeholder="Enter your ZIP code"]').value;
+                if (!name || !dob || !ssn || !zip) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                if (ssn.length !== 4 || isNaN(ssn)) {
+                    alert('Please enter last 4 digits of your SSN');
+                    return;
+                }
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Checking...';
+                submitBtn.disabled = true;
+                setTimeout(() => {
+                    document.getElementById('regStatus').textContent = sampleData.status;
+                    document.getElementById('voterId').textContent = sampleData.voterId;
+                    document.getElementById('pollingLocation').textContent = sampleData.pollingLocation;
+                    document.getElementById('regDate').textContent = sampleData.regDate;
+                    document.getElementById('lastUpdated').textContent = sampleData.lastUpdated;
+                    document.getElementById('eligibility').textContent = sampleData.eligibility;
+                    const statuses = ['Active', 'Pending', 'Inactive'];
+                    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                    document.getElementById('regStatus').textContent = randomStatus;
+                    const badge = document.getElementById('statusBadge');
+                    badge.textContent = randomStatus.toUpperCase();
+                    
+                    if (randomStatus === 'Active') {
+                        badge.className = 'status-badge status-active';
+                    } else if (randomStatus === 'Pending') {
+                        badge.style.background = '#fef3c7';
+                        badge.style.color = '#92400e';
+                    } else {
+                        badge.className = 'status-badge status-inactive';
+                    }
+                    resultBox.style.display = 'block';
+                    resultBox.style.animation = 'fadeIn 0.5s ease-out';
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    resultBox.scrollIntoView({ behavior: 'smooth' });
+                    
+                }, 1500);
+            });
+            const dobInput = document.querySelector('input[type="date"]');
+            dobInput.addEventListener('focus', function() {
+                this.type = 'date';
+            });
+            
+            dobInput.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.type = 'text';
+                    this.placeholder = 'MM/DD/YYYY';
+                }
+            });
+            dobInput.type = 'text';
+            dobInput.placeholder = 'MM/DD/YYYY';
+        });
+        
+        function printResult() {
+            const printContent = document.getElementById('resultBox').innerHTML;
+            const originalContent = document.body.innerHTML;
+            
+            document.body.innerHTML = `
+                    <h2>Voter Registration Confirmation</h2>
+                    <p>Printed on: ${new Date().toLocaleDateString()}</p>
+                    ${printContent}
+                    <button class="no-print" onclick="window.location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #1e40af; color: white; border: none; border-radius: 5px; cursor: pointer;">Back to Website</button>
+                </body>
+                </html>
+            `;
+            
+            window.print();
+            document.body.innerHTML = originalContent;
+            window.location.reload();
+        }
+        
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

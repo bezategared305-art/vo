@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Online Voting Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            padding: 1rem 0;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo .tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .status-bar {
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .status-label {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+        
+        .status-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #166534;
+        }
+        
+        .badge-active {
+            background: #16a34a;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            background: white;
+            border-radius: 16px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .election-title {
+            color: #1e40af;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-tagline {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+        .quick-access {
+            margin: 3rem 0;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            border-top: 4px solid #3b82f6;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            color: #1e40af;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .card p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-btn {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        
+        .card-btn:hover {
+            background: #e2e8f0;
+        }
+        .process-steps {
+            margin: 4rem 0;
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+        
+        .step h4 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .languages {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .language-btn {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero-tagline {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .steps-container {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div>
+                    <h1>OFFICIAL ONLINE VOTING PORTAL</h1>
+                    <div class="tagline">Secure • Accessible • Verified</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">HOME</a></li>
+                    <li><a href="results.html">RESULT</a></li>
+                    <li><a href="rules.html"><i class="fas fa-gavel"></i> RULES</a></li>
+                    <li><a href="aboute.html">ABOUT</a></li>
+                    <li><a href="HELP.HTML">HELP</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-label">STATUS</div>
+                <div class="badge-active">ACTIVE</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">TIME LEFT</div>
+                <div class="status-value">08:42:19</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">TOTAL VOTES</div>
+                <div class="status-value">142.2M</div>
+            </div>
+        </div>
+        <section class="hero">
+            <h2 class="election-title">NATIONAL GENERAL ELECTION 2024</h2>
+            <h1 class="hero-tagline">Your Voice,<br>Your Secure Vote</h1>
+            <p class="hero-description">
+                Cast your ballot safely using our encrypted digital voting infrastructure. 
+                Your vote is confidential, secure, and directly counted.
+            </p>
+            <div class="cta-buttons">
+                <a href="LEM2.HTML" class="btn btn-primary">VOTE NOW</a>
+            </div>
+        </section>
+        <section class="quick-access">
+            <h2 class="section-title">Quick Access</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>Voter Login</h3>
+                    <p>Access your secure voting portal with government-issued credentials</p>
+                    <a href="BOX1.HTML" class="card-btn">Login to Vote →</a>
+                </div>
+                <div class="card">
+                    <h3>Check Registration Status</h3>
+                    <p>Verify your eligibility and registration details before voting</p>
+                    <a href="box2.html" class="card-btn">Check Status →</a>
+                </div>
+                <div class="card">
+                    <h3>Track My Vote</h3>
+                    <p>Confirm your ballot was received and counted with verification code</p>
+                    <a href="box3.html" class="card-btn">Track Ballot →</a>
+                </div>
+            </div>
+        </section>
+        <section class="process-steps">
+            <h2 class="section-title">4-STEP SECURE PROCESS</h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Login & Verify</h4>
+                    <p>Secure authentication with multi-factor verification</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Access Ballot</h4>
+                    <p>Receive your personalized ballot based on location</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Make Selections</h4>
+                    <p>Review candidates and make your choices</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Confirm & Submit</h4>
+                    <p>Verify choices and submit encrypted ballot</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="POLYCY.HTML">Privacy Policy</a>
+                <a href="acc.html">Accessibility</a>
+                <a href="#">Contact Officials</a>
+                <a href="#">FAQ / Help</a>
+                <a href="#">Security Details</a>
+            </div>
+            <div class="languages">
+                <span class="language-btn">English</span>
+                <span class="language-btn">Español</span>
+                <span class="language-btn">中文</span>
+            </div>
+        </div>
+    </footer>
+    <script>
+        
+        function updateCountdown() {
+            const electionEnd = new Date('Nov 5, 2024 20:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = electionEnd - now;
+            
+            if (distance > 0) {
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.querySelector('.status-value').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            } else {
+                document.querySelector('.status-value').textContent = "00:00:00";
+                document.querySelector('.badge-active').textContent = "ENDED";
+                document.querySelector('.badge-active').style.background = "#dc2626";
+            }
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        function updateVoteCount() {
+            const voteElement = document.querySelectorAll('.status-value')[1];
+            let currentVotes = 142200000;
+            const increment = Math.floor(Math.random() * 100) + 50;
+            currentVotes += increment;
+            voteElement.textContent = (currentVotes / 1000000).toFixed(1) + 'M';
+        }
+        setInterval(updateVoteCount, 5000);
+    document.addEventListener('DOMContentLoaded', function() {
+        const langButtons = document.querySelectorAll('.language-btn');
+        
+        langButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const lang = this.textContent.trim();
+                langButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                alert(`Language switched to ${lang}. In a real system, this would change all page content.`);
+                localStorage.setItem('language', lang);
+            });
+        });
+        const savedLang = localStorage.getItem('language');
+        if (savedLang) {
+            langButtons.forEach(btn => {
+                if (btn.textContent.trim() === savedLang) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    });
+
+    </script>
+</body>
+</html>

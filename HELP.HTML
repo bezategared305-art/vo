@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - E-Voting Support</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Language Switcher -->
+    <script src="language.js" defer></script>
+    
+    <style>
+        /* ========== RESET & BASE STYLES ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --dark-blue: #1e3a8a;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --error-red: #ef4444;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-400: #94a3b8;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --white: #ffffff;
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.1);
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+        
+        body {
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ========== HEADER & NAVIGATION ========== */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            padding: 1rem 0;
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--white);
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .tagline {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        /* ========== HELP HERO ========== */
+        .help-hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: var(--white);
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .help-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .help-hero .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .search-box button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--secondary-blue);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        /* ========== QUICK LINKS ========== */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .quick-link-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .quick-link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--secondary-blue);
+        }
+        
+        .link-icon {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+        }
+        
+        .quick-link-card h3 {
+            font-size: 1.3rem;
+            color: var(--gray-800);
+            margin-bottom: 1rem;
+        }
+        
+        .quick-link-card p {
+            color: var(--gray-600);
+            margin-bottom: 1.5rem;
+        }
+        
+        .link-btn {
+            display: inline-block;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .link-btn:hover {
+            background: var(--secondary-blue);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        /* ========== FAQ SECTION ========== */
+        .faq-section {
+            margin: 4rem 0;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray-800);
+            font-size: 1.1rem;
+        }
+        
+        .faq-question:hover {
+            background: var(--gray-50);
+        }
+        
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-answer {
+            padding: 0 2rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--gray-600);
+        }
+        
+        .faq-answer.active {
+            padding: 0 2rem 1.5rem;
+            max-height: 500px;
+        }
+        
+        /* ========== CONTACT SECTION ========== */
+        .contact-section {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            margin: 4rem 0;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-method {
+            text-align: center;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            background: var(--gray-50);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-method:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-method h3 {
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-method p {
+            color: var(--gray-600);
+        }
+        
+        /* ========== TROUBLESHOOTING ========== */
+        .troubleshooting {
+            margin: 4rem 0;
+        }
+        
+        .issue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .issue-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--warning-orange);
+        }
+        
+        .issue-card h4 {
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .issue-card h4 i {
+            color: var(--warning-orange);
+        }
+        
+        .issue-card p {
+            color: var(--gray-600);
+        }
+        
+        /* ========== FOOTER ========== */
+        footer {
+            background: var(--gray-800);
+            color: var(--white);
+            margin-top: auto;
+            padding-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            padding-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+        
+        .footer-section p {
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        
+        /* Language Selector */
+        .languages {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .language-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--gray-400);
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        
+        .language-btn.active {
+            background: var(--secondary-blue);
+            color: var(--white);
+            border-color: var(--secondary-blue);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .language-btn i {
+            font-size: 1rem;
+        }
+        
+        .footer-bottom {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-bottom p {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .disclaimer {
+            color: #fbbf24 !important;
+            font-size: 0.85rem !important;
+        }
+        
+        .disclaimer i {
+            margin-right: 8px;
+        }
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .help-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            nav ul {
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .contact-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== HEADER ========== -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <div>
+                    <h1>OFFICIAL ONLINE VOTING PORTAL</h1>
+                    <div class="tagline" data-translate="tagline">Secure • Accessible • Verified</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" data-translate="home"><i class="fas fa-home"></i> HOME</a></li>
+                    <li><a href="voting-rules.html" data-translate="rules"><i class="fas fa-book"></i> RULES</a></li>
+                    <li><a href="policy.html" data-translate="legal"><i class="fas fa-gavel"></i> LEGAL</a></li>
+                    <li><a href="results.html" data-translate="results"><i class="fas fa-chart-bar"></i> RESULTS</a></li>
+                    <li><a href="aboute.html"><i class="fas fa-info-circle"></i> ABOUT</a></li>
+                    <li><a href="help.html" class="active"><i class="fas fa-question-circle"></i> HELP</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ========== HELP HERO ========== -->
+    <section class="help-hero">
+        <div class="container">
+            <h1>Help Center</h1>
+            <p class="subtitle">Find answers to common questions or get assistance with voting issues</p>
+            
+            <div class="search-box">
+                <input type="text" placeholder="Search for help topics...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== QUICK LINKS ========== -->
+    <main class="container">
+        <div class="quick-links">
+            <div class="quick-link-card">
+                <div class="link-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h3>Registration Help</h3>
+                <p>Having trouble registering to vote? Check your eligibility and registration status.</p>
+                <a href="#" class="link-btn">Get Help</a>
+            </div>
+            
+            <div class="quick-link-card">
+                <div class="link-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Login Issues</h3>
+                <p>Can't access your voting account? Reset password or recover username.</p>
+                <a href="#" class="link-btn">Troubleshoot</a>
+            </div>
+            
+            <div class="quick-link-card">
+                <div class="link-icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <h3>Voting Process</h3>
+                <p>Step-by-step guide to casting your ballot securely online.</p>
+                <a href="voting-rules.html" class="link-btn">Learn More</a>
+            </div>
+            
+            <div class="quick-link-card">
+                <div class="link-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Security Concerns</h3>
+                <p>Learn about our security measures and how your vote is protected.</p>
+                <a href="policy.html" class="link-btn">Security Info</a>
+            </div>
+        </div>
+
+        <!-- ========== FAQ SECTION ========== -->
+        <section class="faq-section">
+            <h2 style="text-align: center; font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1rem;">
+                Frequently Asked Questions
+            </h2>
+            <p style="text-align: center; color: var(--gray-600); max-width: 700px; margin: 0 auto 3rem;">
+                Quick answers to common questions about online voting
+            </p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How do I know my vote is secure?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our system uses military-grade end-to-end encryption, anonymous voting IDs, and blockchain verification. Each vote is encrypted before leaving your device and can only be decrypted by the official counting servers. You receive a unique verification code to confirm your vote was counted.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What if I make a mistake on my ballot?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can review and change your selections as many times as needed before final submission. Once you click "Submit," your vote is final and cannot be changed. Take your time reviewing each selection on the confirmation page.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Can I vote from my mobile phone?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Our platform is fully responsive and works on all devices - smartphones, tablets, laptops, and desktop computers. We recommend using a secure, private internet connection regardless of device.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What if I lose internet connection while voting?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Your progress is automatically saved every 30 seconds. If you lose connection, simply log back in and you'll be returned to where you left off. You have 30 minutes of inactivity before you'll need to start over.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How do I verify my vote was counted?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>After voting, you'll receive a unique, anonymous verification code. You can enter this code on our "Track My Vote" page to confirm your ballot was received and counted. This verification is available 24 hours after voting closes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== TROUBLESHOOTING ========== -->
+        <section class="troubleshooting">
+            <h2 style="font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1rem;">
+                Common Issues & Solutions
+            </h2>
+            
+            <div class="issue-grid">
+                <div class="issue-card">
+                    <h4><i class="fas fa-exclamation-triangle"></i> "Invalid Credentials" Error</h4>
+                    <p>Double-check your username and password. Use the "Forgot Password" link if needed. Ensure Caps Lock is off.</p>
+                </div>
+                
+                <div class="issue-card">
+                    <h4><i class="fas fa-clock"></i> Session Timeout</h4>
+                    <p>For security, sessions expire after 30 minutes of inactivity. Simply log back in to continue voting.</p>
+                </div>
+                
+                <div class="issue-card">
+                    <h4><i class="fas fa-ban"></i> Browser Compatibility</h4>
+                    <p>Use the latest version of Chrome, Firefox, Safari, or Edge. Clear cache/cookies if experiencing issues.</p>
+                </div>
+                
+                <div class="issue-card">
+                    <h4><i class="fas fa-mobile-alt"></i> Mobile Display Issues</h4>
+                    <p>Rotate your device to landscape mode for better viewing. Ensure you have the latest OS updates.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CONTACT SECTION ========== -->
+        <section class="contact-section">
+            <h2 style="text-align: center; font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1rem;">
+                Need More Help?
+            </h2>
+            <p style="text-align: center; color: var(--gray-600); max-width: 700px; margin: 0 auto 2rem;">
+                Contact our support team through these channels
+            </p>
+            
+            <div class="contact-grid">
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Phone Support</h3>
+                    <p>1-800-VOTE-NOW</p>
+                    <p style="font-size: 0.9rem; color: var(--gray-500);">24/7 during election period</p>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Support</h3>
+                    <p>help@vote.gov</p>
+                    <p style="font-size: 0.9rem; color: var(--gray-500);">Response within 2 hours</p>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Live Chat</h3>
+                    <p>Available on website</p>
+                    <p style="font-size: 0.9rem; color: var(--gray-500);">9AM-9PM EST</p>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>In-Person Help</h3>
+                    <p>Local Election Offices</p>
+                    <p style="font-size: 0.9rem; color: var(--gray-500);">Find nearest location</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-landmark"></i> Election Commission</h3>
+                <p>National Election Authority<br>123 Democracy Ave<br>Capital City, CC 10101</p>
+                <p><i class="fas fa-phone"></i> 1-800-VOTE-NOW</p>
+                <p><i class="fas fa-envelope"></i> help@vote.gov</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-translate="quickLinks">Quick Links</h3>
+                <div class="footer-links">
+                    <a href="rules.html" data-translate="rules"><i class="fas fa-book"></i> Voting Rules</a>
+                    <a href="POLYCY.HTML" data-translate="privacyPolicy"><i class="fas fa-lock"></i> Privacy Policy</a>
+                    <a href="acc.html" data-translate="accessibility"><i class="fas fa-universal-access"></i> Accessibility</a>
+                    <a href="#" data-translate="contactOfficials"><i class="fas fa-headset"></i> Contact Officials</a>
+                    <a href="about.html"><i class="fas fa-info-circle"></i> About Mercha Bore</a>
+                </div>
+                <div class="languages">
+                    <button class="language-btn" data-lang="english">
+                        <i class="fas fa-language"></i> English
+                    </button>
+                    <button class="language-btn" data-lang="spanish">
+                        <i class="fas fa-language"></i> Español
+                    </button>
+                    <button class="language-btn" data-lang="french">
+                        <i class="fas fa-language"></i> Français
+                    </button>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3 data-translate="verifiedSystem">Verified System</h3>
+                <p><i class="fas fa-check-circle"></i> End-to-End Encryption</p>
+                <p><i class="fas fa-shield-alt"></i> Independently Audited</p>
+                <p><i class="fas fa-user-shield"></i> Anonymous Voting</p>
+                <p><i class="fas fa-clipboard-check"></i> Paper Trail Verified</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>© 2024 National Election Commission. Powered by Mercha Bore Secure Voting Technology.</p>
+                <p class="disclaimer"><i class="fas fa-exclamation-triangle"></i> This system is for authorized voters only. Unauthorized access is prohibited.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle Function
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            answer.classList.toggle('active');
+            icon.style.transform = answer.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
+        }
+        
+        // Search functionality
+        document.querySelector('.search-box button').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-box input').value;
+            if (searchTerm.trim()) {
+                alert(`Searching for: "${searchTerm}"\nIn a real system, this would show search results.`);
+            }
+        });
+        
+        // Enter key for search
+        document.querySelector('.search-box input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.search-box button').click();
+            }
+        });
+    </script>
+</body>
+</html>

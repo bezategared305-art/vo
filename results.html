@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Election Results - Official Voting Portal</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --dark-blue: #1e3a8a;
+            --success-green: #10b981;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-400: #94a3b8;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --white: #ffffff;
+            --shadow-lg: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            --radius-lg: 20px;
+        }
+        
+        body {
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            padding: 1rem 0;
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--white);
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .tagline {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        /* Results Container */
+        .results-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Results Header */
+        .results-header {
+            padding: 40px 40px 30px;
+            border-bottom: 1px solid var(--gray-200);
+            text-align: center;
+            position: relative;
+        }
+        
+        .results-badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: var(--secondary-blue);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+        
+        .results-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+        
+        .results-subtitle {
+            color: var(--gray-600);
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 30px 40px 10px;
+        }
+        
+        .stat-card {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--gray-800);
+            margin-top: 4px;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Results Section */
+        .results-section {
+            padding: 30px 40px 40px;
+        }
+        
+        .candidate-card {
+            display: grid;
+            grid-template-columns: 60px 1fr auto;
+            align-items: center;
+            padding: 20px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .candidate-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border-color: var(--secondary-blue);
+        }
+        
+        .rank {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-600);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray-100);
+            border-radius: 50%;
+        }
+        
+        .candidate-card.winner {
+            background: linear-gradient(to right, var(--white), #f0f9ff);
+            border-color: var(--secondary-blue);
+        }
+        
+        .candidate-card.winner .rank {
+            background: var(--secondary-blue);
+            color: var(--white);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+        }
+        
+        .candidate-info {
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .candidate-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+        
+        .candidate-party {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-top: 4px;
+        }
+        
+        .candidate-stats {
+            text-align: right;
+            min-width: 100px;
+            z-index: 2;
+        }
+        
+        .candidate-votes {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .candidate-percentage {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Progress Bar */
+        .progress-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: var(--gray-100);
+            width: 100%;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary-blue);
+            border-radius: 0 2px 2px 0;
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        .winner .progress-fill {
+            background: var(--secondary-blue);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Results Footer */
+        .results-footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--gray-200);
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            background: var(--gray-50);
+        }
+        
+        #lastUpdated {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+        
+        /* Main Footer */
+        footer {
+            background: var(--gray-800);
+            color: var(--white);
+            margin-top: auto;
+            padding-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            padding-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        
+        .footer-bottom {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-bottom p {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .results-container {
+                margin: 20px;
+                border-radius: 16px;
+            }
+            
+            .results-header {
+                padding: 30px 20px;
+            }
+            
+            .results-section {
+                padding: 20px;
+            }
+            
+            .candidate-card {
+                grid-template-columns: auto 1fr;
+                gap: 15px;
+            }
+            
+            .rank {
+                grid-row: span 2;
+            }
+            
+            .candidate-stats {
+                grid-column: 2;
+                text-align: left;
+                margin-top: 8px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <div>
+                    <h1>OFFICIAL ONLINE VOTING PORTAL</h1>
+                    <div class="tagline">Secure • Accessible • Verified</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">HOME</a></li>
+                    <li><a href="results.html">RESULT</a></li>
+                    <li><a href="rules.html"><i class="fas fa-gavel"></i> Rules</a></li>
+                    <li><a href="aboute.html">ABOUT</a></li>
+                    <li><a href="HELP.HTML">HELP</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Results Content -->
+    <main class="container">
+        <div class="results-container">
+            <header class="results-header">
+                <span class="results-badge">Official Results</span>
+                <h1 class="results-title">Live Election Results</h1>
+                <div class="results-subtitle">Real-time vote tabulation dashboard</div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Votes Cast</div>
+                    <div class="stat-value" id="totalVotesDisplay">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Reporting Status</div>
+                    <div class="stat-value" style="color: var(--success-green)">Active</div>
+                </div>
+            </div>
+
+            <div class="results-section" id="resultsContainer">
+                <!-- Results will be injected here by JavaScript -->
+            </div>
+
+            <footer class="results-footer">
+                Data verified and encrypted. Last updated: <span id="lastUpdated"></span>
+            </footer>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-landmark"></i> Election Commission</h3>
+                <p>National Election Authority<br>123 Democracy Ave<br>Capital City, CC 10101</p>
+                <p><i class="fas fa-phone"></i> 1-800-VOTE-NOW</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="policy.html"><i class="fas fa-lock"></i> Privacy Policy</a>
+                    <a href="acc.html"><i class="fas fa-universal-access"></i> Accessibility</a>
+                    <a href="#"><i class="fas fa-headset"></i> Contact Officials</a>
+                    <a href="#"><i class="fas fa-question"></i> FAQ / Help Center</a>
+                    <a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Verified System</h3>
+                <p><i class="fas fa-check-circle"></i> End-to-End Encryption</p>
+                <p><i class="fas fa-shield-alt"></i> Independently Audited</p>
+                <p><i class="fas fa-user-shield"></i> Anonymous Voting</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>© 2024 National Election Commission. All rights reserved. This is an official government voting system.</p>
+                <p class="disclaimer"><i class="fas fa-exclamation-triangle"></i> This system is for authorized voters only. Unauthorized access is prohibited.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Election Results Data
+        const electionResults = [
+            { name: "Candidate A", party: "Party X", votes: 5200 },
+            { name: "Candidate B", party: "Party Y", votes: 3800 },
+            { name: "Candidate C", party: "Independent", votes: 1250 },
+            { name: "Candidate D", party: "Green Alliance", votes: 450 }
+        ];
+
+        // Sort by votes (highest first)
+        electionResults.sort((a, b) => b.votes - a.votes);
+        const totalVotes = electionResults.reduce((sum, candidate) => sum + candidate.votes, 0);
+        const container = document.getElementById("resultsContainer");
+
+        // Animate numbers
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.textContent = Math.floor(progress * (end - start) + start).toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Render Results
+        function renderResults() {
+            // Update total votes with animation
+            const totalElement = document.getElementById("totalVotesDisplay");
+            animateValue(totalElement, 0, totalVotes, 1500);
+
+            // Clear container
+            container.innerHTML = '';
+
+            // Render each candidate
+            electionResults.forEach((candidate, index) => {
+                const percent = ((candidate.votes / totalVotes) * 100).toFixed(1);
+                const isWinner = index === 0;
+
+                const card = document.createElement("div");
+                card.className = `candidate-card ${isWinner ? 'winner' : ''}`;
+                
+                // Staggered animation
+                card.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+                card.style.opacity = '0';
+
+                card.innerHTML = `
+                    <div class="rank">${index + 1}</div>
+                    <div class="candidate-info">
+                        <div class="candidate-name">${candidate.name} ${isWinner ? '👑' : ''}</div>
+                        <div class="candidate-party">${candidate.party}</div>
+                    </div>
+                    <div class="candidate-stats">
+                        <div class="candidate-votes">${candidate.votes.toLocaleString()}</div>
+                        <div class="candidate-percentage">${percent}%</div>
+                    </div>
+                    <div class="progress-bg">
+                        <div class="progress-fill" style="width: 0%" data-width="${percent}%"></div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // Animate progress bars
+            setTimeout(() => {
+                document.querySelectorAll('.progress-fill').forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-width');
+                });
+                document.querySelectorAll('.candidate-card').forEach(card => {
+                    card.style.opacity = '1';
+                });
+            }, 100);
+
+            // Update timestamp
+            const now = new Date();
+            document.getElementById("lastUpdated").textContent = 
+                now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Simulate live updates
+        function simulateLiveUpdate() {
+            // Randomly add votes (for demo)
+            const randomIndex = Math.floor(Math.random() * electionResults.length);
+            const voteIncrement = Math.floor(Math.random() * 10) + 1;
+            
+            electionResults[randomIndex].votes += voteIncrement;
+            
+            // Re-sort and re-render
+            electionResults.sort((a, b) => b.votes - a.votes);
+            renderResults();
+            
+            // Update total votes display
+            const newTotal = electionResults.reduce((sum, c) => sum + c.votes, 0);
+            document.getElementById("totalVotesDisplay").textContent = newTotal.toLocaleString();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', renderResults);
+        
+        // Update every 10 seconds (for demo)
+        setInterval(simulateLiveUpdate, 10000);
+    // Simple Language Changer
+    document.addEventListener('DOMContentLoaded', function() {
+        const langButtons = document.querySelectorAll('.language-btn');
+        
+        langButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const lang = this.textContent.trim();
+                
+                // Remove active class from all buttons
+                langButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Show alert (for demo)
+                alert(`Language switched to ${lang}. In a real system, this would change all page content.`);
+                
+                // Save preference
+                localStorage.setItem('language', lang);
+                
+                // In a real implementation, you would:
+                // 1. Send request to server for translated content
+                // 2. Or load a JSON file with translations
+                // 3. Update all text on the page
+            });
+        });
+        
+        // Load saved language
+        const savedLang = localStorage.getItem('language');
+        if (savedLang) {
+            langButtons.forEach(btn => {
+                if (btn.textContent.trim() === savedLang) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>
